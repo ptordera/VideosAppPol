@@ -1,45 +1,48 @@
 <?php
+namespace App\Helpers;
+
 use App\Models\Team;
-function createDefaultUser()
-{
-    // Crear usuario con datos predeterminados
-    $user = \App\Models\User::create([
-        'name' => env('DEFAULT_USER_NAME'),
-        'email' => env('DEFAULT_USER_EMAIL'),
-        'password' => bcrypt(env('DEFAULT_USER_PASSWORD')),
-    ]);
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-    // Crear un equipo por defecto y asociarlo al usuario
-    $team = Team::create([
-        'name' => 'Default Team',
-        'user_id' => $user->id,  // Asegúrate de asignar el user_id
-    ]);
+class UserHelpers {
 
-    // Asociar el equipo al usuario (esto es opcional si ya lo asociamos en la creación del equipo)
-    $user->team()->associate($team);
-    $user->save();
+    public static function createDefaultUser()
+    {
+        // Crear usuario con datos de configuración
+        $user = User::create([
+            'name' => config('users.default_user.name'),
+            'email' => config('users.default_user.email'),
+            'password' => Hash::make(config('users.default_user.password')),
+        ]);
 
-    return $user;
-}
+        // Crear un equipo único y asociarlo al usuario
+        $team = Team::factory()->create(['user_id' => $user->id]);
 
-function createDefaultTeacher()
-{
-    // Crear profesor con datos predeterminados
-    $teacher = \App\Models\User::create([
-        'name' => env('DEFAULT_TEACHER_NAME'),
-        'email' => env('DEFAULT_TEACHER_EMAIL'),
-        'password' => bcrypt(env('DEFAULT_TEACHER_PASSWORD')),
-    ]);
+        // Asignar el equipo como el equipo actual del usuario
+        $user->current_team_id = $team->id;
+        $user->save();
 
-    // Crear un equipo por defecto y asociarlo al profesor
-    $team = Team::create([
-        'name' => 'Default Teacher Team',
-        'user_id' => $teacher->id,  // Asegúrate de asignar el user_id
-    ]);
+        return $user;
+    }
 
-    // Asociar el equipo al profesor (esto es opcional si ya lo asociamos en la creación del equipo)
-    $teacher->team()->associate($team);
-    $teacher->save();
+    public static function createDefaultTeacher()
+    {
+        // Crear profesor con datos de configuración
+        $teacher = User::create([
+            'name' => config('users.default_teacher.name'),
+            'email' => config('users.default_teacher.email'),
+            'password' => Hash::make(config('users.default_teacher.password')),
+        ]);
 
-    return $teacher;
+        // Crear un equipo único y asociarlo al profesor
+        $team = Team::factory()->create(['user_id' => $teacher->id]);
+
+        // Asignar el equipo como el equipo actual del profesor
+        $teacher->current_team_id = $team->id;
+        $teacher->save();
+
+        return $teacher;
+    }
+
 }
