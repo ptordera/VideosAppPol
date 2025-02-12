@@ -25,9 +25,16 @@ class VideosController extends Controller
 
         // Si no encuentra el video, retorna un error 404
         if (!$video) {
-            return response()->json(['error' => 'Video no encontrado'], 404);
+            return response()->json(['error' => 'Video no trobat'], 404);
         }
 
         return view('videos.show', compact('video'));
+    }
+
+    // Nova funció que retorna la classe del controlador
+    public function testedby()
+    {
+        // Retorna el nombre completo de la clase del controlador
+        return get_class($this);
     }
 }

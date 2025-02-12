@@ -4,7 +4,20 @@
     <div class="video-detail">
         <h1>{{ $video['title'] }}</h1>
         <p class="video-description">{{ $video['description'] }}</p>
-        <a href="{{ $video['url'] }}" class="video-link" target="_blank">Mira el vídeo</a>
+
+        <div class="video-iframe">
+            @php
+                // Extraer el ID del video de la URL
+                preg_match('/(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $video['url'], $matches);
+                $videoId = $matches[1] ?? null; // Si no se encuentra el ID, se establece como null
+            @endphp
+
+            @if($videoId)
+                <iframe width="100%" height="500" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            @else
+                <p>No se pudo encontrar el video.</p>
+            @endif
+        </div>
     </div>
 @endsection
 
@@ -37,22 +50,12 @@
             text-align: justify;
         }
 
-        /* Estilo para el enlace del video */
-        .video-link {
-            display: inline-block;
-            font-size: 1.2em;
-            color: #fff;
-            background-color: #3498db;
-            padding: 12px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            text-align: center;
-        }
-
-        /* Efecto hover para el enlace */
-        .video-link:hover {
-            background-color: #2980b9;
+        /* Estilo para el iframe */
+        .video-iframe iframe {
+            width: 100%;
+            height: 500px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         }
     </style>
 @endpush

@@ -15,48 +15,30 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-//    public function run(): void
-//    {
-//        // Crear usuaris per defecte
-//        User::create([
-//            'name' => 'Admin User',
-//            'email' => 'admin@example.com',
-//            'password' => bcrypt('Admin1234'),
-//        ]);
-//
-//        User::create([
-//            'name' => 'Regular User',
-//            'email' => 'user@example.com',
-//            'password' => bcrypt('User1234'),
-//        ]);
-//
-//        // Crear vídeos per defecte
-//        Videos::create([
-//            'title' => 'Video 1',
-//            'description' => 'Descripció del primer video',
-//            'url' => 'http://default.url/video-1',
-//            'published_at' => now(),
-//            'previous' => null,
-//            'next' => null,
-//            'series_id' => null,
-//        ]);
-//
-//        Videos::create([
-//            'title' => 'Video 2',
-//            'description' => 'Descripció del segon video',
-//            'url' => 'http://default.url/video-2',
-//            'published_at' => now(),
-//            'previous' => null,
-//            'next' => null,
-//            'series_id' => null,
-//        ]);
-//    }
 
     public function run(): void
     {
+        // Crear permisos i rols
+        (new \App\Helpers\UserHelpers)->create_permissions();
+
+        $superAdmin = (new \App\Helpers\UserHelpers)->create_superadmin_user();
+        $superAdmin->save();
+        $regularUser = (new \App\Helpers\UserHelpers)->create_regular_user();
+        $regularUser->save();
+        $videoManager = (new \App\Helpers\UserHelpers)->create_video_manager_user();
+        $videoManager->save();
+
+
+        // Assignar rols als usuaris
+        $superAdmin->assignRole('super_admin');
+        $regularUser->assignRole('regular');
+        $videoManager->assignRole('video_manager');
 
         UserHelpers::createDefaultUser();
         UserHelpers::createDefaultTeacher();
         DefaultVideosHelper::createDefaultVideo();
+
+        // Definir portes d'accés (Gates)
+        (new \App\Helpers\UserHelpers)->define_gates();
     }
 }

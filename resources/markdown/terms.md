@@ -61,6 +61,34 @@ L'objectiu principal d'aquest projecte és desenvolupar una aplicació web tipus
 - **Proves de vídeos**:
     - Creació de tests per comprovar la creació i formatació dels vídeos, així com la capacitat dels usuaris per veure vídeos existents.
 
+### 3r Sprint:
+- **Gestió de permisos i rols d'usuari**:
+    - Instal·lació del paquet **spatie/laravel-permission** per gestionar permisos d'usuaris.
+    - Creació d'una migració per afegir el camp `super_admin` a la taula dels usuaris.
+    - Modificació del model d'usuaris per afegir les funcions `testedBy()` i `isSuperAdmin()`.
+- **Millores en la gestió d'usuaris per defecte**:
+    - Afegir el rol `superadmin` al professor a la funció `create_default_professor` dels helpers.
+    - Creació de la funció `add_personal_team()` per separar la creació dels equips dels usuaris.
+    - Creació de les funcions `create_regular_user()`, `create_video_manager_user()`, `create_superadmin_user()` per generar usuaris amb rols específics.
+- **Autenticació i autorització**:
+    - Definició de les polítiques d'autorització i permisos a `App/Providers/AppServiceProvider`.
+    - Afegir permisos i rols d'usuaris (`superadmin`, `regular user`, `video manager`) al `DatabaseSeeder`.
+- **Publicació i personalització de stubs**:
+    - Publicació dels stubs de Laravel per personalitzar la generació de fitxers.
+- **Proves i testos automatitzats**:
+    - Creació del test `VideosManageControllerTest` a `tests/Feature/Videos`.
+    - Implementació de proves per verificar la gestió de vídeos segons permisos d'usuari:
+        - `user_with_permissions_can_manage_videos()`
+        - `regular_users_cannot_manage_videos()`
+        - `guest_users_cannot_manage_videos()`
+        - `superadmins_can_manage_videos()`
+        - `loginAsVideoManager()`, `loginAsSuperAdmin()`, `loginAsRegularUser()`
+    - Creació del test `UserTest` a `tests/Unit` per validar la funció `isSuperAdmin()`.
+- **Validacions i depuració amb Larastan**:
+    - Comprovació de tots els fitxers nous i modificats amb **Larastan** per assegurar la qualitat del codi.
+- **Documentació**:
+    - Afegir informació sobre el tercer sprint a `resources/markdown/terms`.
+
 ---
 
 ## Eines Utilitzades
@@ -71,43 +99,7 @@ L'objectiu principal d'aquest projecte és desenvolupar una aplicació web tipus
 - **Larastan**: Eina d'anàlisi estàtica per detectar errors de codi.
 - **Carbon**: Llibreria per manipular dates i hores en Laravel.
 - **SQLite**: Base de dades lleugera per al desenvolupament i les proves.
-
----
-
-## Configuració de l'Entorn
-
-1. **Instal·lació de Laravel**:
-    - Instalar Laravel utilitzant el següent comandament:
-      ```bash
-      composer create-project --prefer-dist laravel/laravel VideosApp
-      ```
-
-2. **Configuració de la base de dades**:
-    - Configuració de **SQLite** per a les proves en el fitxer `.env`:
-      ```
-      DB_CONNECTION=sqlite
-      DB_DATABASE=/path_to_your_database/database.sqlite
-      ```
-
-3. **Instal·lació de Jetstream i Livewire**:
-    - Per instal·lar Jetstream amb Livewire:
-      ```bash
-      composer require laravel/jetstream
-      php artisan jetstream:install livewire
-      npm install && npm run dev
-      ```
-
-4. **Eines de testing**:
-    - Instal·lació de PHPUnit per a les proves unitàries:
-      ```bash
-      composer require --dev phpunit/phpunit
-      ```
-
-5. **Instal·lació de Larastan**:
-    - Instal·lació per a la detecció d'errors de codi:
-      ```bash
-      composer require --dev nunomaduro/larastan
-      ```
+- **spatie/laravel-permission**: Paquet per gestionar permisos d'usuaris.
 
 ---
 
@@ -117,3 +109,5 @@ Per executar les proves del projecte, utilitza la següent comanda:
 
 ```bash
 php artisan test
+```
+
