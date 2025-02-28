@@ -89,6 +89,29 @@ L'objectiu principal d'aquest projecte és desenvolupar una aplicació web tipus
 - **Documentació**:
     - Afegir informació sobre el tercer sprint a `resources/markdown/terms`.
 
+### 4t Sprint:
+- **Corregir errors del 3r sprint**:
+    - Corregir els errors detectats durant el 3r sprint, especialment si no s'ha comprovat que els usuaris amb permisos puguin accedir a la ruta `/videosmanage`.
+- **Crear el controlador `VideosManageController`**:
+    - Crear funcions com `testedBy`, `index`, `store`, `show`, `edit`, `update`, `delete` i `destroy` en el controlador.
+- **Funció `index` a `VideosController`**:
+    - Crear la funció `index` al controlador `VideosController`.
+- **Revisió de vídeos creats**:
+    - Comprovar que es tinguin 3 vídeos creats a helpers i afegits al `databaseSeeder`.
+- **Creació de vistes per al CRUD de vídeos**:
+    - Crear vistes per al CRUD que només poden veure els usuaris amb permisos adients: `resources/views/videos/manage/index.blade.php`, `create.blade.php`, `edit.blade.php`, `delete.blade.php`.
+    - Afegir taules i formularis a les vistes corresponents, utilitzant l'atribut `data-qa` per facilitar les proves.
+- **Funcions de test a `VideoTest`**:
+    - Crear funcions per verificar l'accés a les vistes i permisos: `user_without_permissions_can_see_default_videos_page`, `user_with_permissions_can_see_default_videos_page`, `not_logged_users_can_see_default_videos_page`.
+- **Rutes i middleware per al CRUD de vídeos**:
+    - Crear rutes de CRUD per als vídeos amb el seu middleware corresponent, amb l'index accessible tant per usuaris autenticats com no autenticats.
+- **Navbar i footer a `videosapp`**:
+    - Afegir un navbar i footer a la plantilla `resources/layouts/videosapp`, permetent la navegació entre pàgines.
+- **Afegir documentació al markdown**:
+    - Afegir la descripció de les tasques realitzades al 4t sprint a `resources/markdown/terms`.
+- **Revisió amb Larastan**:
+    - Comprovar tots els fitxers creats amb **Larastan**.
+
 ---
 
 ## Eines Utilitzades
@@ -100,14 +123,3 @@ L'objectiu principal d'aquest projecte és desenvolupar una aplicació web tipus
 - **Carbon**: Llibreria per manipular dates i hores en Laravel.
 - **SQLite**: Base de dades lleugera per al desenvolupament i les proves.
 - **spatie/laravel-permission**: Paquet per gestionar permisos d'usuaris.
-
----
-
-## Com executar les proves
-
-Per executar les proves del projecte, utilitza la següent comanda:
-
-```bash
-php artisan test
-```
-

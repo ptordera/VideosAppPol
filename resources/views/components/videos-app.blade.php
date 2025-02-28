@@ -81,6 +81,7 @@
         <ul>
             <li><a href="{{ route('home') }}">Inici</a></li>
             <li><a href="{{ route('videos.index') }}">Vídeos</a></li>
+            <li><a href="{{ route('videos.manage.index') }}">Manage Videos</a></li>
         </ul>
     </nav>
 </header>

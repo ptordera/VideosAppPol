@@ -27,16 +27,22 @@ class DatabaseSeeder extends Seeder
         $regularUser->save();
         $videoManager = (new \App\Helpers\UserHelpers)->create_video_manager_user();
         $videoManager->save();
+        $defaultUser = (new \App\Helpers\UserHelpers)->createDefaultUser();
+        $defaultUser->save();
+        $defaultTeacher = (new \App\Helpers\UserHelpers)->createDefaultTeacher();
+        $defaultTeacher->save();
 
 
         // Assignar rols als usuaris
         $superAdmin->assignRole('super_admin');
         $regularUser->assignRole('regular');
         $videoManager->assignRole('video_manager');
+        $defaultUser->assignRole('regular');
+        $defaultTeacher->assignRole('super_admin');
 
-        UserHelpers::createDefaultUser();
-        UserHelpers::createDefaultTeacher();
         DefaultVideosHelper::createDefaultVideo();
+        DefaultVideosHelper::createDefaultVideo2();
+        DefaultVideosHelper::createDefaultVideo3();
 
         // Definir portes d'accés (Gates)
         (new \App\Helpers\UserHelpers)->define_gates();

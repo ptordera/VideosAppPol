@@ -24,12 +24,12 @@ class DefaultVideosHelperTest extends TestCase
         $this->assertDatabaseHas('videos', [
             'title' => 'Video per defecte',
             'description' => 'Descripció del video per defecte.',
-            'url' => 'http://default.url/video-defecte',
+            'url' => 'https://youtu.be/a-4923Uyu54',
         ]);
 
         // Verificar que el model retornat té els mateixos valors
         $this->assertEquals('Video per defecte', $video->title);
         $this->assertEquals('Descripció del video per defecte.', $video->description);
-        $this->assertEquals('http://default.url/video-defecte', $video->url);
+        $this->assertEquals('https://youtu.be/a-4923Uyu54', $video->url);
     }
 }

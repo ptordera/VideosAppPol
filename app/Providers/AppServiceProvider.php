@@ -21,10 +21,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('create-videos', fn(User $user) => $user->hasPermissionTo('create videos'));
-        Gate::define('edit-videos', fn(User $user) => $user->hasPermissionTo('edit videos'));
-        Gate::define('delete-videos', fn(User $user) => $user->hasPermissionTo('delete videos'));
 
-        Gate::define('manage-users', fn(User $user) => $user->isSuperAdmin());
+        Gate::define('manage-videos', function (User $user) {
+            return $user->hasRole('video-manager') || $user->isSuperAdmin();
+        });
+
+        Gate::define('manage-users', function (User $user) {
+            return $user->isSuperAdmin();
+        });
     }
 }

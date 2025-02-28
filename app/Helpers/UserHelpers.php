@@ -19,6 +19,8 @@ class UserHelpers {
             'password' => Hash::make(config('users.default_user.password')), // Usar Hash::make
         ]);
 
+        $user->save();
+
         (new \App\Helpers\UserHelpers) -> add_personal_team($user, 'Default Team');
 
         return $user;
@@ -34,6 +36,8 @@ class UserHelpers {
             'super_admin' => true,
         ]);
 
+        $teacher->save();
+
         // Crear un equipo único y asociarlo al profesor
         $team = Team::factory()->create(['user_id' => $teacher->id]);
 
@@ -46,46 +50,75 @@ class UserHelpers {
         return $teacher;
     }
 
-    public function add_personal_team(User $user, string $teamName): void
+    public function add_personal_team(User $user, string $teamName)
     {
+        $user->save();
+
         // Crear un equipo personal y asociarlo al usuario
         $team = Team::create([
             'name' => $teamName,
             'user_id' => $user->id,
+            'personal_team' => true,
         ]);
 
         // Asignar el equipo como el equipo actual del usuario
-        $user->team()->associate($team);
+        $user->current_team_id = $team->id;
         $user->save();
     }
 
     function create_regular_user() {
-        return \App\Models\User::create([
+        $regularUser = \App\Models\User::create([
             'name' => 'Regular',
             'email' => 'regular@videosapp.com',
             'password' => Hash::make('123456789') // Usar Hash::make
         ]);
+
+        $team = Team::factory()->create(['user_id' => $regularUser->id]);
+
+        // Asignar el equipo como el equipo actual del profesor
+        $regularUser->current_team_id = $team->id;
+        $regularUser->save();
+
+        (new \App\Helpers\UserHelpers) -> add_personal_team($regularUser, 'Default Team');
+
+        return $regularUser;
     }
 
     function create_video_manager_user()
     {
-        $user = User::create([
+        $videoManager = User::create([
             'name' => 'Video Manager',
             'email' => 'videosmanager@videosapp.com',
             'password' => Hash::make('123456789'), // Usar Hash::make
         ]);
-        return $user;
+
+        $team = Team::factory()->create(['user_id' => $videoManager->id]);
+
+        $videoManager->current_team_id = $team->id;
+        $videoManager->save();
+
+        (new \App\Helpers\UserHelpers) -> add_personal_team($videoManager, 'Default Team');
+
+        return $videoManager;
     }
 
     function create_superadmin_user()
     {
-        $user = User::create([
+        $superAdmin = User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin@videosapp.com',
             'password' => Hash::make('123456789'), // Usar Hash::make
             'super_admin' => true,
         ]);
-        return $user;
+
+        $team = Team::factory()->create(['user_id' => $superAdmin->id]);
+
+        $superAdmin->current_team_id = $team->id;
+        $superAdmin->save();
+
+        (new \App\Helpers\UserHelpers) -> add_personal_team($superAdmin, 'Default Team');
+
+        return $superAdmin;
     }
 
     function define_gates()
@@ -102,10 +135,8 @@ class UserHelpers {
     function create_permissions()
     {
         $permissions = [
-            'create videos',
-            'edit videos',
-            'delete videos',
-            'manage users'
+            'manage-videos',
+            'manage-users'
         ];
 
         foreach ($permissions as $permission) {
@@ -114,7 +145,7 @@ class UserHelpers {
 
         $roles = [
             'regular' => [],
-            'video_manager' => ['create videos', 'edit videos', 'delete videos'],
+            'video_manager' => ['manage-videos'],
             'super_admin' => Permission::pluck('name')->toArray(),
         ];
 
