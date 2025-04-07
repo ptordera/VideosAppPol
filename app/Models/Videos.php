@@ -16,7 +16,8 @@ class Videos extends Model
         'published_at',
         'previous',
         'next',
-        'series_id'
+        'series_id',
+        'user_id',
     ];
 
     function getFormattedPublishedAtAttribute()

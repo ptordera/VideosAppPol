@@ -22,6 +22,12 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
     use HasRoles;
 
+    public function videos()
+    {
+        return $this->hasMany(Videos::class, 'user_id');
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *

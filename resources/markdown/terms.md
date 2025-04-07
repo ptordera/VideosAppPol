@@ -38,7 +38,7 @@ L'objectiu principal d'aquest projecte és desenvolupar una aplicació web tipus
 - **Creació de tests**:
     - Creació d'un test de helpers per verificar la creació d'usuaris per defecte i professors per defecte.
 - **Creació de helpers**:
-    - Els helpers s'utilitzen per generar usuaris i videos per defecte.
+    - Els helpers s'utilitzen per generar usuaris i vídeos per defecte.
 - **Configuració de base de dades**:
     - Configuració d'una base de dades SQLite per a les proves, evitant que afecti la base de dades de producció.
 - **Mòduls de configuració**:
@@ -111,6 +111,62 @@ L'objectiu principal d'aquest projecte és desenvolupar una aplicació web tipus
     - Afegir la descripció de les tasques realitzades al 4t sprint a `resources/markdown/terms`.
 - **Revisió amb Larastan**:
     - Comprovar tots els fitxers creats amb **Larastan**.
+
+### 5è Sprint:
+- **Corregir errors del 4t sprint**:
+    - Solucionar els errors detectats al sprint anterior, especialment aquells relacionats amb permisos i rutes d'accés.
+- **Afegir el camp `user_id` a la taula de vídeos**:
+    - Modificació de la migració de vídeos per afegir el camp `user_id`.
+    - Adaptació del model, controladors i helpers perquè en crear un vídeo es guardi automàticament l’usuari que l’ha creat.
+    - Comprovació i correcció dels tests anteriors en cas que s’hagin vist afectats pels canvis.
+- **Creació del `UsersManageController`**:
+    - Implementació de les funcions: `testedBy`, `index`, `store`, `edit`, `update`, `delete`, `destroy` per gestionar usuaris.
+- **Millores a `UsersController`**:
+    - Afegides les funcions `index` i `show` per llistar i mostrar informació detallada d’un usuari i els seus vídeos.
+- **Creació de vistes per al CRUD d’usuaris**:
+    - `resources/views/users/manage/index.blade.php`: vista amb la taula del CRUD d’usuaris.
+    - `create.blade.php`: formulari per afegir usuaris amb atributs `data-qa` per facilitar les proves.
+    - `edit.blade.php`: formulari per editar informació d’usuaris.
+    - `delete.blade.php`: confirmació d’eliminació d’un usuari.
+- **Vista pública dels usuaris**:
+    - `resources/views/users/index.blade.php`: mostra tots els usuaris i permet cercar-los; en clicar un usuari es mostra el seu detall i vídeos associats.
+- **Gestió de permisos**:
+    - Creació de permisos específics per a la gestió d’usuaris.
+    - Assignació d’aquests permisos als usuaris amb rol `superadmin` mitjançant els helpers.
+- **Proves a `UserTest`**:
+    - Funcions de test per comprovar els permisos i la visualització correcta de les pàgines:
+        - `user_without_permissions_can_see_default_users_page`
+        - `user_with_permissions_can_see_default_users_page`
+        - `not_logged_users_cannot_see_default_users_page`
+        - `user_without_permissions_can_see_user_show_page`
+        - `user_with_permissions_can_see_user_show_page`
+        - `not_logged_users_cannot_see_user_show_page`
+- **Proves a `UsersManageControllerTest`**:
+    - Implementació de funcions per verificar permisos i funcionalitats del CRUD:
+        - `loginAsVideoManager`, `loginAsSuperAdmin`, `loginAsRegularUser`
+        - `user_with_permissions_can_see_add_users`
+        - `user_without_users_manage_create_cannot_see_add_users`
+        - `user_with_permissions_can_store_users`
+        - `user_without_permissions_cannot_store_users`
+        - `user_with_permissions_can_destroy_users`
+        - `user_without_permissions_cannot_destroy_users`
+        - `user_with_permissions_can_see_edit_users`
+        - `user_without_permissions_cannot_see_edit_users`
+        - `user_with_permissions_can_update_users`
+        - `user_without_permissions_cannot_update_users`
+        - `user_with_permissions_can_manage_users`
+        - `regular_users_cannot_manage_users`
+        - `guest_users_cannot_manage_users`
+        - `superadmins_can_manage_users`
+- **Rutes per a la gestió d’usuaris**:
+    - Creació de rutes per al CRUD d’usuaris amb middleware de permisos.
+    - Les rutes de l’índex i el detall (`index`, `show`) només estan disponibles per a usuaris autenticats.
+- **Navegació entre pàgines**:
+    - Integració del sistema de navegació entre les diferents seccions de l’aplicació.
+- **Documentació**:
+    - Afegida la descripció del 5è sprint a `resources/markdown/terms`.
+- **Validació amb Larastan**:
+    - Comprovació de tots els fitxers nous i modificats per garantir la qualitat i consistència del codi.
 
 ---
 

@@ -153,6 +153,9 @@ class UserHelpers {
             $roleInstance = Role::firstOrCreate(['name' => $role]);
             $roleInstance->syncPermissions($perms);
         }
+
+        $superAdmin = Role::firstOrCreate(['name' => 'super_admin']);
+        $superAdmin->syncPermissions(Permission::all());
     }
 
 }

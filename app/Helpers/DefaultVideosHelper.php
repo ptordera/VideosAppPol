@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\User;
 use App\Models\Videos;
 use Carbon\Carbon;
 
@@ -15,7 +16,9 @@ class DefaultVideosHelper
      */
     public static function createDefaultVideo(array $overrides = [])
     {
-        // Establecer valores por defecto
+
+        $defaultUserId = User::first()->id ?? User::factory()->create()->id;
+
         $defaultData = [
             'title' => 'Video per defecte',
             'description' => 'Descripció del video per defecte.',
@@ -24,6 +27,7 @@ class DefaultVideosHelper
             'previous' => null,
             'next' => null,
             'series_id' => null,
+            'user_id' => $defaultUserId,
         ];
 
         // Sobrescribir valores si se pasan en el array
@@ -35,7 +39,9 @@ class DefaultVideosHelper
 
     public static function createDefaultVideo2(array $overrides = [])
     {
-        // Establecer valores por defecto
+
+        $defaultUserId = User::first()->id ?? User::factory()->create()->id;
+
         $defaultData = [
             'title' => 'Video per defecte 2',
             'description' => 'Descripció del video per defecte 2.',
@@ -44,6 +50,7 @@ class DefaultVideosHelper
             'previous' => null,
             'next' => null,
             'series_id' => null,
+            'user_id' => $defaultUserId,
         ];
 
         // Sobrescribir valores si se pasan en el array
@@ -55,7 +62,8 @@ class DefaultVideosHelper
 
     public static function createDefaultVideo3(array $overrides = [])
     {
-        // Establecer valores por defecto
+        $defaultUserId = User::first()->id ?? User::factory()->create()->id;
+
         $defaultData = [
             'title' => 'Video per defecte 3',
             'description' => 'Descripció del video per defecte 3.',
@@ -64,6 +72,7 @@ class DefaultVideosHelper
             'previous' => null,
             'next' => null,
             'series_id' => null,
+            'user_id' => $defaultUserId,
         ];
 
         // Sobrescribir valores si se pasan en el array

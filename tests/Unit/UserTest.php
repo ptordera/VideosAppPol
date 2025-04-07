@@ -21,4 +21,6 @@ class UserTest extends TestCase // Asegúrate de que extienda TestCase
 
         $this->assertFalse($regularUser->isSuperAdmin());
     }
+
+
 }

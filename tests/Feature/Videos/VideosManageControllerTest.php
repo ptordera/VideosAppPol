@@ -192,11 +192,15 @@ class VideosManageControllerTest extends TestCase
 
     public function test_user_without_permissions_cannot_destroy_videos()
     {
+
+        $videoManager = $this->loginAsVideoManager();
+
         $video = Videos::create([
             'title' => 'Video de prova',
             'description' => 'Descripció del vídeo de prova.',
             'url' => 'https://www.youtube.com/watch?v=example',
             'published_at' => now(),
+            'user_id' => $videoManager->id,
         ]);
 
         $regularUser = $this->loginAsRegularUser();

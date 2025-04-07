@@ -70,6 +70,8 @@
             font-size: 0.9em;
         }
     </style>
+
+    @stack('styles')
 </head>
 <body>
 
@@ -78,7 +80,33 @@
         <ul>
             <li><a href="{{ url('/') }}">Inici</a></li>
             <li><a href="{{ route('videos.index') }}">Vídeos</a></li>
-            <li><a href="{{ route('videos.manage.index') }}">Manage Videos</a></li>
+
+            @if (Auth::check())
+                <li><a href="{{ route('users.index') }}">Usuaris</a></li>
+            @endif
+
+            @if (Auth::check() && Auth::user()->can('manage-videos'))
+                <li><a href="{{ route('videos.manage.index') }}">Manage Videos</a></li>
+            @endif
+
+            @if (Auth::check() && Auth::user()->can('manage-users'))
+                <li><a href="{{ route('users.manage.index') }}">Manage Users</a></li>
+            @endif
+
+
+            @if (Auth::check())
+                <li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Tancar
+                        sessió</a>
+                </li>
+            @else
+                <li><a href="{{ route('login') }}">Iniciar sessió</a></li>
+                <li><a href="{{ route('register') }}">Registrar-se</a></li>
+            @endif
+
         </ul>
     </nav>
 </header>
