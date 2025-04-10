@@ -27,6 +27,15 @@
             </div>
 
             <div class="form-group">
+                <label for="role">Rol</label>
+                <select name="role" class="form-control" required>
+                    @foreach($roles as $role)
+                        <option value="{{ $role->name }}">{{ ucfirst($role->name) }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label for="password">Contrasenya</label>
                 <input type="password" name="password" class="form-control" data-qa="input-password" required>
             </div>
@@ -40,7 +49,6 @@
     @push('styles')
     <style>
         .container {
-            padding: 40px;
             background-color: #f9f9f9;
             border-radius: 8px;
         }

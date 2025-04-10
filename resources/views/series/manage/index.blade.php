@@ -2,43 +2,41 @@
 
 @section('content')
     <div class="container">
-        <h1>Gestió d'Usuaris</h1>
+        <h1>Gestió de Sèries</h1>
+
+        <!-- Botó destacat per crear sèrie -->
+        <a href="{{ route('series.manage.create') }}" class="btn btn-create-series mb-3" data-qa="create-series">Crear Sèrie</a>
 
         @if(session('success'))
             <div class="alert alert-success mt-3">{{ session('success') }}</div>
         @endif
 
-        <!-- Botó destacat per crear usuari -->
-        <a href="{{ route('users.manage.create') }}" class="btn btn-create-user mb-3">Crear Usuari</a>
-
-        <!-- Taula que ocupa tota l'amplada disponible -->
+        <!-- Taula de sèries -->
         <div class="table-responsive">
             <table class="table table-striped mt-3">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Rol</th>
+                    <th>Títol</th>
+                    <th>Descripció</th>
+                    <th>Data de Publicació</th>
                     <th>Accions</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($users as $user)
+                @foreach($series as $serie)
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->getRoleNames()->first() }}</td>
+                        <td>{{ $serie->id }}</td>
+                        <td>{{ $serie->title }}</td>
+                        <td>{{ \Str::limit($serie->description, 50) }}</td>
+                        <td>{{ $serie->published_at ? \Carbon\Carbon::parse($serie->published_at)->format('d-m-Y') : 'No publicat' }}</td>
                         <td>
-                            <a href="{{ route('users.manage.edit', $user) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('users.manage.destroy', $user) }}" method="POST"
-                                  style="display:inline;">
+                            <a href="{{ route('series.manage.edit', $serie) }}" class="btn btn-warning btn-sm" data-qa="edit-series-{{ $serie->id }}">Editar</a>
+
+                            <form action="{{ route('series.manage.destroy', $serie) }}" method="POST" style="display:inline;" data-qa="delete-series-{{ $serie->id }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Estàs segur?')">Eliminar
-                                </button>
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Estàs segur que vols eliminar aquesta sèrie? Els vídeos associats també seran desassignats.')">Eliminar</button>
                             </form>
                         </td>
                     </tr>
@@ -49,8 +47,8 @@
     </div>
 @endsection
 
-<!-- Estils CSS -->
 @push('styles')
+    <!-- Estils CSS -->
     <style>
         .container {
             background-color: #f9f9f9;
@@ -64,10 +62,9 @@
             margin-bottom: 20px;
         }
 
-        /* Estil per al botó de crear usuari */
-        .btn-create-user {
+        .btn-create-series {
+            background-color: #28a745;
             text-decoration: none;
-            background-color: #007bff;
             color: white;
             font-size: 16px;
             font-weight: 600;
@@ -77,26 +74,25 @@
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
-        .btn-create-user:hover {
-            background-color: #0056b3;
+        .btn-create-series:hover {
+            background-color: #218838;
             transform: scale(1.05);
         }
 
         .alert {
+            margin-top: 20px;
             font-size: 14px;
             padding: 10px;
             background-color: #d4edda;
             color: #155724;
-            margin: 50px 0;
         }
 
-        /* Taula i estil de les cel·les */
         .table {
+            width: 100%;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             font-size: 14px;
-            width: 100%;
         }
 
         .table th {
@@ -109,7 +105,6 @@
             padding: 12px 15px;
         }
 
-
         .table td:last-child {
             text-align: center;
         }
@@ -119,16 +114,20 @@
         }
 
         .table td a {
-            text-decoration: none;
             color: white;
+            text-decoration: none;
+        }
+
+        .table td a:hover {
+            text-decoration: underline;
         }
 
         .btn-warning, .btn-danger {
+            border: none;
             font-size: 12px;
             padding: 6px 12px;
             border-radius: 4px;
             transition: background-color 0.3s ease;
-            border: none;
         }
 
         .btn-warning {
@@ -149,7 +148,6 @@
             background-color: #c82333;
         }
 
-        /* Estil per fer la taula més responsive */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -160,8 +158,7 @@
             .table {
                 font-size: 12px;
             }
-
-            .btn-primary, .btn-warning, .btn-danger {
+            .btn-create-series, .btn-warning, .btn-danger {
                 font-size: 12px;
                 padding: 6px 12px;
             }

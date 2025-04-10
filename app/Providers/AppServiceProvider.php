@@ -23,11 +23,15 @@ class AppServiceProvider extends ServiceProvider
     {
 
         Gate::define('manage-videos', function (User $user) {
-            return $user->hasRole('video-manager') || $user->isSuperAdmin();
+            return $user->hasRole('video-manager') || $user->isSuperAdmin() || $user->hasRole('regular');
         });
 
         Gate::define('manage-users', function (User $user) {
             return $user->isSuperAdmin();
+        });
+
+        Gate::define('manage-series', function (User $user) {
+            return $user->hasRole('super_admin');
         });
     }
 }

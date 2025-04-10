@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use Tests\Unit\UserTest;
 
 class UsersManageController extends Controller
@@ -22,7 +23,9 @@ class UsersManageController extends Controller
      */
     public function create()
     {
-        return view('users.manage.create');
+        $roles = Role::all();
+
+        return view('users.manage.create', compact('roles'));
     }
 
     /**
@@ -33,14 +36,19 @@ class UsersManageController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'role' => 'required|exists:roles,name',
             'password' => 'required|string|min:8',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
+
+        $user->assignRole($request->role);
+
+        (new \App\Helpers\UserHelpers)->add_personal_team($user, $user->name . ' Team');
 
         return redirect()->route('users.manage.index')->with('success', 'Usuari creat correctament');
     }
@@ -50,7 +58,9 @@ class UsersManageController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.manage.edit', compact('user'));
+        $roles = Role::all();
+
+        return view('users.manage.edit', compact('user', 'roles'));
     }
 
     /**
@@ -61,7 +71,10 @@ class UsersManageController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|exists:roles,name',
         ]);
+
+        $user->syncRoles([$request->role]);
 
         $user->update($request->only('name', 'email'));
 

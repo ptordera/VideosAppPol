@@ -136,7 +136,8 @@ class UserHelpers {
     {
         $permissions = [
             'manage-videos',
-            'manage-users'
+            'manage-users',
+            'manage-series',
         ];
 
         foreach ($permissions as $permission) {

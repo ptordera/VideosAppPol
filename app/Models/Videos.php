@@ -20,6 +20,11 @@ class Videos extends Model
         'user_id',
     ];
 
+    public function serie()
+    {
+        return $this->belongsTo(Serie::class, 'series_id');
+    }
+
     function getFormattedPublishedAtAttribute()
     {
         // Verificar si la fecha es null antes de formatear

@@ -168,6 +168,109 @@ L'objectiu principal d'aquest projecte és desenvolupar una aplicació web tipus
 - **Validació amb Larastan**:
     - Comprovació de tots els fitxers nous i modificats per garantir la qualitat i consistència del codi.
 
+## 6è Sprint
+
+- **Corregir els errors del 5è sprint**:
+    - Solucionar els errors detectats al 5è sprint.
+    - En cas que al modificar el codi falli algun test d’un sprint anterior, s’han d’arreglar.
+
+- **Modificar vídeos per poder assignar-los a les sèries**:
+    - Afegir la funcionalitat per associar vídeos amb sèries.
+
+- **Permetre als usuaris regulars crear vídeos**:
+    - Afegir les funcions del CRUD de vídeos per als usuaris regulars a `VideoController`.
+    - Crear els botons per al CRUD a la vista de vídeos.
+
+- **Crear migració per a les sèries**:
+    - Crear la migració de sèries amb els camps següents:
+        - `id`, `title`, `description`, `image`, `user_name`, `user_photo_url`, `published_at`.
+
+- **Crear model de sèries**:
+    - Crear el model `Serie` amb les funcions següents:
+        - `testedBy()`, `videos()`, `getFormattedCreatedAtAttribute()`, `getFormattedForHumansCreatedAtAttribute()`, `getCreatedAtTimestampAttribute()`.
+
+- **Afegir la relació 1:N entre vídeos i sèries**:
+    - Modificar el model de vídeos per afegir la relació 1:N amb les sèries.
+
+- **Crear `SeriesManageController`**:
+    - Crear les funcions següents:
+        - `testedBy()`, `index()`, `store()`, `edit()`, `update()`, `delete()`, `destroy()`.
+
+- **Crear `SeriesController`**:
+    - Crear les funcions següents:
+        - `index()` i `show()`.
+
+- **Afegir funcions al model de sèries**:
+    - Afegir les funcions següents al model `Serie`:
+        - `testedBy()`, `videos()`, `getFormattedCreatedAtAttribute()`, `getFormattedForHumansCreatedAtAttribute()`, `getCreatedAtTimestampAttribute()`.
+
+- **Crear la migració de les sèries**:
+    - Afegir els camps `id`, `title`, `description`, `image` (nullable), `user_name`, `user_photo_url` (nullable), `published_at` (nullable).
+
+- **Afegir la funció `create_series()` a helpers**:
+    - Crear 3 sèries per defecte a través de la funció `create_series()`.
+
+- **Crear vistes per al CRUD de sèries**:
+    - Crear les següents vistes per al CRUD de sèries, accessibles només per a usuaris amb els permisos adequats:
+        - `resources/views/series/manage/index.blade.php`
+        - `resources/views/series/manage/create.blade.php`
+        - `resources/views/series/manage/edit.blade.php`
+        - `resources/views/series/manage/delete.blade.php`
+    - A cada vista s’ha d’utilitzar l'atribut `data-qa` per facilitar la identificació a les proves.
+
+- **Afegir funcionalitat de CRUD a la vista `index.blade.php`**:
+    - Afegir la taula del CRUD de sèries.
+
+- **Afegir formulari per crear sèries a `create.blade.php`**:
+    - Afegir el formulari per crear noves sèries.
+
+- **Afegir taula de sèries a `edit.blade.php`**:
+    - Afegir la taula del CRUD per editar sèries.
+
+- **Afegir confirmació d'eliminació de sèries a `delete.blade.php`**:
+    - Afegir una confirmació per eliminar les sèries i els vídeos associats a aquestes. Si no es vol eliminar els vídeos, es pot desassignar la relació.
+
+- **Crear vista pública per a la visualització de sèries**:
+    - Crear la vista `resources/views/series/index.blade.php` per mostrar totes les sèries i permetre cercar-les. Quan es fa clic en una sèrie, es mostren els vídeos associats a aquesta.
+
+- **Crear permisos per gestionar sèries**:
+    - Crear els permisos per gestionar les sèries i assignar-los als usuaris amb rol `superadmin`.
+
+- **Afegir proves a `SerieTest`**:
+    - Crear la funció `serie_have_videos()` per verificar que les sèries tenen vídeos associats.
+
+- **Afegir proves a `SeriesManageControllerTest`**:
+    - Crear les següents funcions de test:
+        - `loginAsVideoManager`, `loginAsSuperAdmin`, `loginAsRegularUser`
+        - `user_with_permissions_can_see_add_series`
+        - `user_without_series_manage_create_cannot_see_add_series`
+        - `user_with_permissions_can_store_series`
+        - `user_without_permissions_cannot_store_series`
+        - `user_with_permissions_can_destroy_series`
+        - `user_without_permissions_cannot_destroy_series`
+        - `user_with_permissions_can_see_edit_series`
+        - `user_without_permissions_cannot_see_edit_series`
+        - `user_with_permissions_can_update_series`
+        - `user_without_permissions_cannot_update_series`
+        - `user_with_permissions_can_manage_series`
+        - `regular_users_cannot_manage_series`
+        - `guest_users_cannot_manage_series`
+        - `videomanagers_can_manage_series`
+        - `superadmins_can_manage_series`
+
+- **Crear rutes per a la gestió de sèries**:
+    - Crear les rutes per al CRUD de sèries i les rutes d'índex i show, protegides amb middleware d'autenticació.
+
+- **Navegació entre pàgines**:
+    - Assegurar-se que la navegació entre pàgines funciona correctament.
+
+- **Afegir documentació al markdown**:
+    - Afegir la descripció del 6è sprint a `resources/markdown/terms`.
+
+- **Comprovació amb Larastan**:
+    - Comprovar tots els fitxers creats amb **Larastan** per garantir la qualitat i consistència del codi.
+
+
 ---
 
 ## Eines Utilitzades

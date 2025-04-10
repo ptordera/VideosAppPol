@@ -80,6 +80,7 @@
         <ul>
             <li><a href="{{ url('/') }}">Inici</a></li>
             <li><a href="{{ route('videos.index') }}">Vídeos</a></li>
+            <li><a href="{{ route('series.index') }}">Series</a></li>
 
             @if (Auth::check())
                 <li><a href="{{ route('users.index') }}">Usuaris</a></li>
@@ -91,6 +92,10 @@
 
             @if (Auth::check() && Auth::user()->can('manage-users'))
                 <li><a href="{{ route('users.manage.index') }}">Manage Users</a></li>
+            @endif
+
+            @if (Auth::check() && Auth::user()->can('manage-series'))
+                <li><a href="{{ route('series.manage.index') }}">Manage Series</a></li>
             @endif
 
 

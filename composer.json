@@ -35,7 +35,9 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/DefaultVideosHelper.php"
+            "app/Helpers/UserHelpers.php",
+            "app/Helpers/DefaultVideosHelper.php",
+            "app/Helpers/SeriesHelper.php"
         ]
     },
     "autoload-dev": {
