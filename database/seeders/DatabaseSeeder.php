@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Helpers\DefaultVideosHelper;
+use App\Helpers\SeriesHelper;
 use App\Models\User;
 use App\Models\Videos;
 use App\Helpers\UserHelpers;
@@ -39,6 +40,10 @@ class DatabaseSeeder extends Seeder
         $videoManager->assignRole('video_manager');
         $defaultUser->assignRole('regular');
         $defaultTeacher->assignRole('super_admin');
+
+        SeriesHelper::createDefaultSerie1();
+        SeriesHelper::createDefaultSerie2();
+        SeriesHelper::createDefaultSerie3();
 
         DefaultVideosHelper::createDefaultVideo();
         DefaultVideosHelper::createDefaultVideo2();

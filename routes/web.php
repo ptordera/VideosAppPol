@@ -14,6 +14,10 @@ Route::get('/', function () {
 
 Route::get('/videos', [VideosController::class, 'index'])->name('videos.index');
 
+Route::get('/notifications', function () {
+    return view('notifications');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -62,4 +66,16 @@ Route::middleware(['auth', 'can:manage-series'])->prefix('series/manage')->group
 Route::middleware(['auth'])->group(function () {
     Route::get('/serie/{id}', [SeriesController::class, 'show'])->name('series.show');
     Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
+});
+
+Route::get('/video/{id}', [VideosController::class, 'show'])->name('videos.show');
+Route::get('/videos', [VideosController::class, 'index'])->name('videos.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/videos/create', [VideosController::class, 'create'])->name('videos.create');
+    Route::post('/videos/', [VideosController::class, 'store'])->name('videos.store');
+    Route::get('/videos/{id}/edit', [VideosController::class, 'edit'])->name('videos.edit');
+    Route::put('/videos/{id}', [VideosController::class, 'update'])->name('videos.update');
+    Route::delete('/videos/{id}', [VideosController::class, 'destroy'])->name('videos.destroy');
+    Route::get('/series/create', [SeriesController::class, 'create'])->name('series.create');
+    Route::post('/series/create', [SeriesController::class, 'store'])->name('series.store');
 });

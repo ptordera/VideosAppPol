@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Serie;
 use App\Models\Videos;
 use Illuminate\Http\Request;
 use Tests\Feature\Videos\VideosManageControllerTest;
@@ -24,7 +25,8 @@ class VideosManageController extends Controller
         if (!auth()->user()->can('manage-videos')) {
             abort(403, 'No tens permisos per gestionar vídeos');
         }
-        return view('videos.manage.create');
+        $series = Serie::all();
+        return view('videos.manage.create', compact('series'));
 
     }
 
@@ -71,7 +73,9 @@ class VideosManageController extends Controller
             return response()->json(['message' => 'Video no trobat'], 404);
         }
 
-        return view('videos.manage.edit', compact('video'));
+        $series = Serie::all();
+
+        return view('videos.manage.edit', compact('video', 'series'));
     }
 
     public function update(Request $request, string $id)

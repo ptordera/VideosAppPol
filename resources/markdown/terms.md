@@ -269,7 +269,27 @@ L'objectiu principal d'aquest projecte és desenvolupar una aplicació web tipus
 
 - **Comprovació amb Larastan**:
     - Comprovar tots els fitxers creats amb **Larastan** per garantir la qualitat i consistència del codi.
-
+    - 
+### 7è Sprint:
+- **Corregir els errors del 6è sprint**:
+    - Solucionar els errors detectats al 6è sprint.
+    - En cas que al modificar el codi falli algun test d’un sprint anterior, s’han d’arreglar.
+- **Afegir funcionalitat perquè els usuaris regulars puguin crear sèries**:
+    - Assegurar que els usuaris amb rol `regular` puguin accedir a les vistes i rutes de creació de sèries si tenen els permisos necessaris.
+    - Crear botons o enllaços a la interfície per facilitar aquesta acció.
+- **Afegir funcionalitat perquè els usuaris regulars puguin afegir vídeos a sèries**:
+    - Permetre que els usuaris seleccionin una sèrie existent al crear un vídeo.
+    - Validar que només es puguin afegir vídeos a sèries a les quals tenen accés.
+- **Actualització de permisos i middleware**:
+    - Verificar que les rutes i accions corresponents estiguin protegides adequadament amb middleware de permisos.
+- **Proves i validacions**:
+    - Crear o adaptar proves per verificar que els usuaris regulars poden crear sèries i afegir vídeos a sèries.
+    - Comprovar amb PHPUnit que no es trenquin funcionalitats d’sprints anteriors.
+- **Documentació**:
+    - Afegir la descripció de les tasques realitzades al 7è sprint a `resources/markdown/terms`.
+- **Revisió amb Larastan**:
+    - Comprovar que els canvis introduïts compleixen amb els estàndards de qualitat del projecte.
+      """
 
 ---
 

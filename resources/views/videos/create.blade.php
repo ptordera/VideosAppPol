@@ -4,7 +4,7 @@
     <div class="container">
         <h1>Crear Vídeo</h1>
 
-        <form action="{{ route('videos.manage.store') }}" method="POST" data-qa="video-create-form">
+        <form action="{{ route('videos.store') }}" method="POST" data-qa="video-create-form">
             @csrf
             <div class="form-group">
                 <label for="title">Títol</label>
@@ -40,7 +40,7 @@
                 <label for="series_id">Sèrie</label>
                 <select class="form-control" id="series_id" name="series_id">
                     <option value="">Selecciona una sèrie</option>
-                    @foreach($series as $serie)
+                    @foreach ($series as $serie)
                         <option value="{{ $serie->id }}">{{ $serie->title }}</option>
                     @endforeach
                 </select>
@@ -51,64 +51,49 @@
     </div>
 @endsection
 
+@push('styles')
+    <!-- Estils CSS -->
     <style>
         .container {
-            margin-top: 30px;
+            padding: 40px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
         }
 
         h1 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
+            font-size: 24px;
             font-weight: 600;
-            font-size: 16px;
             color: #333;
-            margin-bottom: 10px;
-            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* Estil per als inputs i formularis */
+        .form-group {
+            margin-bottom: 20px;
         }
 
         .form-control {
-            font-size: 16px;
-            padding: 12px 16px;
+            font-size: 14px;
+            padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            width: 100%;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
+            transition: border-color 0.3s ease;
         }
 
         .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-            outline: none;
+            border-color: #0069d9;
         }
 
-        textarea.form-control {
-            height: 150px;
-            resize: vertical;
-        }
-
+        /* Estil per al botó de crear vídeo */
         .btn-create-video {
             background-color: #28a745;
             color: white;
             font-size: 16px;
             font-weight: 600;
-            padding: 12px 25px;
+            padding: 12px 20px;
             border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
         .btn-create-video:hover {
@@ -116,28 +101,42 @@
             transform: scale(1.05);
         }
 
-        .btn-create-video:active {
-            background-color: #1e7e34;
+        /* Estils per la taula i elements del formulari */
+        .form-group label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
         }
 
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        /* Mida màxima per a dispositius més petits */
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
             }
 
-            h1 {
-                font-size: 24px;
-            }
-
-            .form-control {
-                font-size: 14px;
-                padding: 10px 12px;
-            }
-
-            .btn-create-video {
+            .btn-create-video, .btn-success {
                 font-size: 14px;
                 padding: 10px 15px;
             }
-        }
 
+            .form-control {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
     </style>
+@endpush

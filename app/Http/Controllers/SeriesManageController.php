@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Serie;
+use App\Models\Videos;
 use Illuminate\Http\Request;
 use Tests\Feature\Series\SeriesManageControllerTest;
 
@@ -80,6 +81,8 @@ class SeriesManageController extends Controller
         if (!$serie) {
             return response()->json(['message' => 'Serie not found'], 404);
         }
+
+        Videos::where('serie_id', $serie->id)->delete();
 
         $serie->delete();
 

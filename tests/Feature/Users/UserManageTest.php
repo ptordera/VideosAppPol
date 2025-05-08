@@ -83,6 +83,7 @@ class UserManageTest extends TestCase
             'name' => 'Nuevo Usuario',
             'email' => 'nuevo@usuario.com',
             'password' => 'password123',
+            'role' => 'regular',
         ];
 
         $superAdmin = $this->loginAsSuperAdmin();
@@ -181,6 +182,7 @@ class UserManageTest extends TestCase
             'name' => 'Nombre actualizado',
             'email' => 'actualizado@usuario.com',
             'password' => 'newpassword123',
+            'role' => 'regular',
         ]);
 
         $response->assertStatus(302);

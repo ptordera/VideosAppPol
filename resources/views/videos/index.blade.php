@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container">
+        @if (Auth::check())
+            <div class="col-12 mb-4 crear-video">
+                <a href="{{ route('videos.create') }}" class="btn btn-outline-primary">Crear Vídeo</a>
+            </div>
+        @endif
         <div class="row">
             @foreach ($videos as $video)
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4 video-card">
@@ -36,11 +41,34 @@
     </div>
 @endsection
 
-
+@push('styles')
     <!-- Estils CSS -->
     <style>
         .container {
             width: 100%;
+        }
+
+        .crear-video {
+            display: flex;
+            justify-content: center;
+
+            margin-bottom: 25px;
+
+            a {
+                background-color: #2563eb;
+                border-radius: 5px;
+                text-decoration: none;
+
+                color: white;
+                padding: 10px 20px;
+                transition: all 0.3s ease-in-out;
+            }
+
+            a:hover {
+                background-color: #3498db;
+                transform: scale(1.2);
+            }
+
         }
 
         .card-img-top {
@@ -146,4 +174,4 @@
             }
         }
     </style>
-
+@endpush
