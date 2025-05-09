@@ -1,92 +1,63 @@
-@extends('layouts.videos-app')
+@extends('layouts.app')
 
 @section('content')
     <div class="container py-5">
         <!-- Título principal -->
         <div class="text-center mb-5">
-            <h1 class="display-4">Explora les Millors Sèries</h1>
-            <p class="lead text-muted">Descobreix, cerca i gaudeix de les teves sèries preferides en un sol lloc.</p>
+            <h1>Explora les Millors Sèries</h1>
+            <p class="text-muted">Descobreix, cerca i gaudeix de les teves sèries preferides en un sol lloc.</p>
         </div>
 
         <!-- Formulari de cerca -->
-        <div class="search-bar mb-5">
+        <div class="mb-5">
             <form action="{{ route('series.index') }}" method="GET" class="d-flex justify-content-center">
-                <input type="text" name="search" class="form-control w-50 me-2" placeholder="Cerca una sèrie...">
-                <button type="submit" class="btn btn-primary">Buscar</button>
+                <div class="d-flex w-100" style="max-width: 500px;">
+                    <input type="text" name="search" class="form-control me-2" placeholder="Cerca una sèrie..." value="{{ request('search') }}">
+                    <x-button type="primary">Buscar</x-button>
+                </div>
             </form>
         </div>
 
+        <!-- Botón para crear serie -->
+        @if(Auth::check() && Auth::user())
+            <div class="mb-4 text-center">
+                <x-button type="primary" href="{{ route('series.create') }}">Crear sèrie</x-button>
+            </div>
+        @endif
+
         <!-- Llistat de sèries -->
-        <div class="row g-4">
-            @foreach ($series as $serie)
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-0 shadow-sm">
+        @if($series->isEmpty())
+            <x-empty-state message="No hi ha sèries disponibles" icon="fa-film">
+                @if(Auth::check() && Auth::user()->can('manage-series'))
+                    <x-button type="primary" href="{{ route('series.manage.create') }}">Crear sèrie</x-button>
+                @endif
+            </x-empty-state>
+        @else
+            <div class="card-grid">
+                @foreach ($series as $serie)
+                    <x-card>
                         <!-- Imatge destacada -->
-                        <div class="card-img-top" style="height: 200px; background: url('{{ $serie->image ?? 'https://cdn-icons-png.flaticon.com/512/6553/6553523.png' }}') center/cover;"></div>
+                        <div style="height: 200px; background: url('{{ $serie->image ?? 'https://cdn-icons-png.flaticon.com/512/6553/6553523.png' }}') center/cover; border-radius: var(--border-radius) var(--border-radius) 0 0;"></div>
 
-                        <!-- Contingut de la targeta -->
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $serie->title }}</h5>
-                            <p class="card-text text-muted">{{ \Str::limit($serie->description, 80) }}</p>
-                        </div>
+                        <div class="p-4">
+                            <h3>{{ $serie->title }}</h3>
+                            <p class="text-muted">{{ \Str::limit($serie->description, 80) }}</p>
 
-                        <!-- Peu de la targeta -->
-                        <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                            <small class="text-muted">{{ $serie->published_at ? \Carbon\Carbon::parse($serie->published_at)->format('d/m/Y') : 'No publicada' }}</small>
-                            <a href="{{ route('series.show', $serie->id) }}" class="btn btn-sm btn-outline-primary">Veure més</a>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <small class="text-muted">{{ $serie->published_at ? \Carbon\Carbon::parse($serie->published_at)->format('d/m/Y') : 'No publicada' }}</small>
+                                <x-button type="primary" size="sm" href="{{ route('series.show', $serie->id) }}">Veure més</x-button>
+                            </div>
                         </div>
-                    </div>
+                    </x-card>
+                @endforeach
+            </div>
+
+            <!-- Paginación si existe -->
+            @if(method_exists($series, 'links'))
+                <div class="mt-4">
+                    {{ $series->links() }}
                 </div>
-            @endforeach
-        </div>
+            @endif
+        @endif
     </div>
 @endsection
-
-@push('styles')
-    <style>
-        .container {
-            max-width: 1200px;
-        }
-
-        .card {
-            width: 300px;
-            height: 400px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-top: 25px;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-bar input {
-            border-radius: 20px;
-            padding: 10px 20px;
-        }
-
-        .search-bar button {
-            border-radius: 20px;
-        }
-
-        .card-img-top {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-
-        /*    que la imagen que tiene de backgroun el div este dentro y no salga*/
-            overflow: hidden;
-            position: relative;
-
-
-        }
-
-        .card-footer {
-            font-size: 14px;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-    </style>
-@endpush

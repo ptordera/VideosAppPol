@@ -51,4 +51,9 @@ class SeriesController extends Controller
 
         return redirect()->route('series.index')->with('success', 'Sèrie creada correctament.');
     }
+
+    public function create()
+    {
+    return view('series.create');
+    }
 }

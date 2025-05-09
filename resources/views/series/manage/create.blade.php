@@ -1,74 +1,33 @@
-@extends('layouts.videos-app')
+@extends('layouts.app')
 
-@section('content')    <div class="container">
-        <h1>Crear Nova Sèrie</h1>
+@section('content')
+    <div class="container py-5">
+        <h1 class="mb-4">Crear Nova Sèrie</h1>
 
-        @if($errors->any())
-            <div class="alert alert-danger mt-3">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <x-card>
+            <form action="{{ route('series.manage.store') }}" method="POST" enctype="multipart/form-data" data-qa="create-series-form">
+                @csrf
 
-        <form action="{{ route('series.manage.store') }}" method="POST" data-qa="create-series-form">
-            @csrf
+                <div class="mb-4">
+                    <label for="title" class="form-label">Títol</label>
+                    <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}" required data-qa="input-title">
+                </div>
 
-            <div class="form-group">
-                <label for="title">Títol</label>
-                <input type="text" name="title" class="form-control" value="{{ old('title') }}" required data-qa="input-title">
-            </div>
+                <div class="mb-4">
+                    <label for="description" class="form-label">Descripció</label>
+                    <textarea name="description" id="description" class="form-control" rows="4" required data-qa="input-description">{{ old('description') }}</textarea>
+                </div>
 
-            <div class="form-group">
-                <label for="description">Descripció</label>
-                <textarea name="description" class="form-control" required data-qa="input-description">{{ old('description') }}</textarea>
-            </div>
+                <div class="mb-4">
+                    <label for="image" class="form-label">Imatge (Opcional)</label>
+                    <input type="file" name="image" id="image" class="form-control" data-qa="input-image">
+                </div>
 
-            <div class="form-group">
-                <label for="image">Imatge (Opcional)</label>
-                <input type="file" name="image" class="form-control" data-qa="input-image">
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-create-user">Crear Sèrie</button>
-            </div>
-        </form>
+                <div class="d-flex justify-content-between">
+                    <x-button type="secondary" href="{{ route('series.manage.index') }}">Cancel·lar</x-button>
+                    <x-button type="success">Crear Sèrie</x-button>
+                </div>
+            </form>
+        </x-card>
     </div>
 @endsection
-
-@push('styles')
-    <style>
-        .container {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .form-group label {
-            font-weight: bold;
-        }
-
-        .btn-create-user {
-            border: none;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            padding: 12px 20px;
-            border-radius: 5px;
-        }
-
-        .btn-create-user:hover {
-            background-color: #0056b3;
-        }
-    </style>
-@endpush
-

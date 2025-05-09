@@ -1,104 +1,40 @@
-@extends('layouts.videos-app')
+@extends('layouts.app')
 
 @section('content')
+    <div class="container py-5">
+        <h1 class="mb-4">Editar Usuari: {{ $user->name }}</h1>
 
-    <div class="container">
-        <h1>Editar Usuari</h1>
+        <x-card>
+            <form action="{{ route('users.manage.update', $user) }}" method="POST">
+                @csrf
+                @method('PUT')
 
-        <form action="{{ route('users.manage.update', $user) }}" method="POST">
-            @csrf
-            @method('PUT')
+                <div class="mb-4">
+                    <label for="name" class="form-label">Nom</label>
+                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}" required>
+                </div>
 
-            <div class="form-group">
-                <label for="name">Nom</label>
-                <input type="text" name="name" class="form-control input-edit" value="{{ $user->name }}" required>
-            </div>
+                <div class="mb-4">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}" required>
+                </div>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control input-edit" value="{{ $user->email }}" required>
-            </div>
+                <div class="mb-4">
+                    <label for="role" class="form-label">Rol</label>
+                    <select name="role" id="role" class="form-control" required>
+                        @foreach($roles as $role)
+                            <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
+                                {{ ucfirst($role->name) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="role">Rol</label>
-                <select name="role" class="form-control" required>
-                    @foreach($roles as $role)
-                        <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
-                            {{ ucfirst($role->name) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <button type="submit" class="btn btn-update">Actualitzar</button>
-        </form>
+                <div class="d-flex justify-content-between">
+                    <x-button type="secondary" href="{{ route('users.manage.index') }}">Cancel·lar</x-button>
+                    <x-button type="primary">Actualitzar Usuari</x-button>
+                </div>
+            </form>
+        </x-card>
     </div>
 @endsection
-
-<!-- Estils CSS -->
-@push('styles')
-    <style>
-        .container {
-            padding: 40px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-        }
-
-        h1 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            font-size: 16px;
-            color: #555;
-        }
-
-        .input-edit {
-            font-size: 14px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            transition: border 0.3s ease;
-        }
-
-        .input-edit:focus {
-            border-color: #0069d9;
-            outline: none;
-        }
-
-        .btn-update {
-            border: none;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            padding: 12px 20px;
-            border-radius: 5px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            margin-top: 20px;
-        }
-
-        .btn-update:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-
-        /* Estil per als inputs */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .alert-danger {
-            font-size: 14px;
-            padding: 10px;
-            background-color: #f8d7da;
-            color: #721c24;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-    </style>
-@endpush

@@ -1,12 +1,23 @@
 <x-guest-layout>
-    <div class="pt-4 bg-gray-100">
-        <div class="min-h-screen flex flex-col items-center pt-6 sm:pt-0">
-            <div>
-                <x-authentication-card-logo />
-            </div>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <x-card>
+                    <div class="text-center mb-4">
+                        <a href="{{ route('dashboard') }}">
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-20 w-auto">
+                        </a>
+                        <h1 class="mt-4">Termes i Condicions</h1>
+                    </div>
 
-            <div class="w-full sm:max-w-2xl mt-6 p-6 bg-white shadow-md overflow-hidden sm:rounded-lg prose">
-                {!! $terms !!}
+                    <div class="prose">
+                        {!! $terms !!}
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <x-button type="secondary" href="{{ route('dashboard') }}">Tornar a l'inici</x-button>
+                    </div>
+                </x-card>
             </div>
         </div>
     </div>

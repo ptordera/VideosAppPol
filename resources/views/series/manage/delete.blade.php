@@ -1,51 +1,24 @@
-@extends('layouts.videos-app')
+@extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Eliminar Sèrie: {{ $serie->title }}</h1>
+    <div class="container py-5">
+        <h1 class="mb-4">Eliminar Sèrie: {{ $serie->title }}</h1>
 
-        <p>Estàs a punt d'eliminar aquesta sèrie. Si la sèrie té vídeos associats, aquests es desassignaran de manera automàtica. Vols continuar?</p>
+        <x-card>
+            <div class="mb-4">
+                <p>Estàs a punt d'eliminar aquesta sèrie. Si la sèrie té vídeos associats, aquests es desassignaran de manera automàtica.</p>
+                <p class="text-danger"><strong>Aquesta acció no es pot desfer.</strong></p>
+            </div>
 
-        <form action="{{ route('series.manage.destroy', $serie) }}" method="POST" data-qa="delete-series-form">
-            @csrf
-            @method('DELETE')
+            <form action="{{ route('series.manage.destroy', $serie) }}" method="POST" data-qa="delete-series-form">
+                @csrf
+                @method('DELETE')
 
-            <button type="submit" class="btn btn-danger">Eliminar Sèrie</button>
-            <a href="{{ route('series.manage.index') }}" class="btn btn-secondary">Cancel·lar</a>
-        </form>
+                <div class="d-flex justify-content-between">
+                    <x-button type="secondary" href="{{ route('series.manage.index') }}">Cancel·lar</x-button>
+                    <x-button type="danger">Eliminar Sèrie</x-button>
+                </div>
+            </form>
+        </x-card>
     </div>
 @endsection
-
-@push('styles')
-    <style>
-        .container {
-            padding: 40px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-            font-size: 16px;
-            padding: 12px 20px;
-            border-radius: 5px;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-            font-size: 16px;
-            padding: 12px 20px;
-            border-radius: 5px;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-    </style>
-@endpush

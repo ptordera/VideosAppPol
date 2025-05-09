@@ -1,109 +1,44 @@
-@extends('layouts.videos-app')
+@extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Crear Usuari</h1>
+    <div class="container py-5">
+        <h1 class="mb-4">Crear Usuari</h1>
 
-        @if($errors->any())
-            <div class="alert alert-danger mt-3">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <x-card>
+            <form action="{{ route('users.manage.store') }}" method="POST">
+                @csrf
 
-        <form action="{{ route('users.manage.store') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="name">Nom</label>
-                <input type="text" name="name" class="form-control" data-qa="input-name" required>
-            </div>
+                <div class="mb-4">
+                    <label for="name" class="form-label">Nom</label>
+                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required data-qa="input-name">
+                </div>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control" data-qa="input-email" required>
-            </div>
+                <div class="mb-4">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required data-qa="input-email">
+                </div>
 
-            <div class="form-group">
-                <label for="role">Rol</label>
-                <select name="role" class="form-control" required>
-                    @foreach($roles as $role)
-                        <option value="{{ $role->name }}">{{ ucfirst($role->name) }}</option>
-                    @endforeach
-                </select>
-            </div>
+                <div class="mb-4">
+                    <label for="role" class="form-label">Rol</label>
+                    <select name="role" id="role" class="form-control" required>
+                        @foreach($roles as $role)
+                            <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
+                                {{ ucfirst($role->name) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="password">Contrasenya</label>
-                <input type="password" name="password" class="form-control" data-qa="input-password" required>
-            </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label">Contrasenya</label>
+                    <input type="password" name="password" id="password" class="form-control" required data-qa="input-password">
+                </div>
 
-            <button type="submit" class="btn btn-create-user">Crear</button>
-        </form>
+                <div class="d-flex justify-content-between">
+                    <x-button type="secondary" href="{{ route('users.manage.index') }}">Cancel·lar</x-button>
+                    <x-button type="success">Crear Usuari</x-button>
+                </div>
+            </form>
+        </x-card>
     </div>
 @endsection
-
-    <!-- Estils CSS -->
-    @push('styles')
-    <style>
-        .container {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-        }
-
-        h1 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        /* Estil per al botó de crear usuari */
-        .btn-create-user {
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            padding: 12px 20px;
-            border-radius: 5px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .btn-create-user:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-
-        /* Estil per a l'alerta d'errors */
-        .alert-danger {
-            font-size: 14px;
-            padding: 10px;
-            background-color: #f8d7da;
-            color: #721c24;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        /* Estil per als camps de formulari */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-control {
-            font-size: 14px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .form-control:focus {
-            border-color: #0069d9;
-            box-shadow: 0 0 8px rgba(0, 105, 217, 0.6);
-        }
-    </style>
-    @endpush

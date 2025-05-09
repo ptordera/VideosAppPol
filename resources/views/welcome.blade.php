@@ -1,53 +1,61 @@
-<!doctype html>
-<html lang="UTF-8">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Pàgina Principal</title>
+@extends('layouts.app')
 
-    <!-- Agregar estilo CSS -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
+@section('content')
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1>Benvingut a VideosApp</h1>
+            <p class="lead text-muted">La teva plataforma per descobrir i compartir vídeos educatius</p>
+        </div>
 
-        x-videos-app {
-            display: block;
-            padding: 20px;
-            margin: 0 auto;
-            max-width: 1200px;
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <x-card>
+                    <div class="text-center p-4">
+                        <i class="fas fa-film fa-3x mb-3" style="color: var(--color-primary);"></i>
+                        <h3>Explora Vídeos</h3>
+                        <p>Descobreix una àmplia col·lecció de vídeos educatius sobre diferents temes.</p>
+                        <x-button type="primary" href="{{ route('videos.index') }}">Veure Vídeos</x-button>
+                    </div>
+                </x-card>
+            </div>
 
-        x-slot:title {
-            font-size: 2em;
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+            <div class="col-md-4 mb-4">
+                <x-card>
+                    <div class="text-center p-4">
+                        <i class="fas fa-list fa-3x mb-3" style="color: var(--color-primary);"></i>
+                        <h3>Explora Sèries</h3>
+                        <p>Accedeix a sèries completes de vídeos organitzats per temes específics.</p>
+                        <x-button type="primary" href="{{ route('series.index') }}">Veure Sèries</x-button>
+                    </div>
+                </x-card>
+            </div>
 
-        p {
-            font-size: 1.1em;
-            color: #555;
-            line-height: 1.6;
-            text-align: center;
-        }
-    </style>
+            <div class="col-md-4 mb-4">
+                <x-card>
+                    <div class="text-center p-4">
+                        <i class="fas fa-users fa-3x mb-3" style="color: var(--color-primary);"></i>
+                        <h3>Comunitat</h3>
+                        <p>Connecta amb altres usuaris i descobreix els seus vídeos compartits.</p>
+                        <x-button type="primary" href="{{ route('users.index') }}">Veure Usuaris</x-button>
+                    </div>
+                </x-card>
+            </div>
+        </div>
 
-</head>
-<body>
-<x-videos-app>
-    <x-slot:title>
-        Pàgina Principal
-    </x-slot:title>
-
-    <p>Benvingut a la pàgina principal de la meva aplicació de vídeos.</p>
-</x-videos-app>
-</body>
-</html>
+        @if (Auth::check())
+            <div class="text-center mt-5">
+                <x-button type="success" href="{{ route('videos.create') }}">
+                    <i class="fas fa-plus-circle me-2"></i>Crear Nou Vídeo
+                </x-button>
+            </div>
+        @else
+            <div class="text-center mt-5">
+                <p>Inicia sessió per començar a compartir els teus propis vídeos</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <x-button type="primary" href="{{ route('login') }}">Iniciar Sessió</x-button>
+                    <x-button type="secondary" href="{{ route('register') }}">Registrar-se</x-button>
+                </div>
+            </div>
+        @endif
+    </div>
+@endsection

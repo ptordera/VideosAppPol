@@ -1,142 +1,61 @@
-@extends('layouts.videos-app')
+@extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Crear Vídeo</h1>
+    <div class="container py-5">
+        <h1 class="mb-4">Crear Vídeo</h1>
 
-        <form action="{{ route('videos.store') }}" method="POST" data-qa="video-create-form">
-            @csrf
-            <div class="form-group">
-                <label for="title">Títol</label>
-                <input type="text" class="form-control" id="title" name="title" required>
-            </div>
+        <x-card>
+            <form action="{{ route('videos.store') }}" method="POST" data-qa="video-create-form">
+                @csrf
 
-            <div class="form-group">
-                <label for="description">Descripció</label>
-                <textarea class="form-control" id="description" name="description"></textarea>
-            </div>
+                <div class="mb-4">
+                    <label for="title" class="form-label">Títol</label>
+                    <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}" required>
+                </div>
 
-            <div class="form-group">
-                <label for="url">URL</label>
-                <input type="url" class="form-control" id="url" name="url" required>
-            </div>
+                <div class="mb-4">
+                    <label for="description" class="form-label">Descripció</label>
+                    <textarea name="description" id="description" class="form-control" rows="4">{{ old('description') }}</textarea>
+                </div>
 
-            <div class="form-group">
-                <label for="published_at">Data de publicació</label>
-                <input type="date" class="form-control" id="published_at" name="published_at" required>
-            </div>
+                <div class="mb-4">
+                    <label for="url" class="form-label">URL</label>
+                    <input type="url" name="url" id="url" class="form-control" value="{{ old('url') }}" required>
+                    <small class="text-muted">Introdueix una URL de YouTube (ex: https://www.youtube.com/watch?v=XXXX)</small>
+                </div>
 
-            <div class="form-group">
-                <label for="previous">Vídeo anterior</label>
-                <input type="text" class="form-control" id="previous" name="previous">
-            </div>
+                <div class="mb-4">
+                    <label for="published_at" class="form-label">Data de publicació</label>
+                    <input type="date" name="published_at" id="published_at" class="form-control" value="{{ old('published_at') ?? date('Y-m-d') }}" required>
+                </div>
 
-            <div class="form-group">
-                <label for="next">Vídeo següent</label>
-                <input type="text" class="form-control" id="next" name="next">
-            </div>
+                <div class="mb-4">
+                    <label for="previous" class="form-label">Vídeo anterior (opcional)</label>
+                    <input type="text" name="previous" id="previous" class="form-control" value="{{ old('previous') }}">
+                </div>
 
-            <div class="form-group">
-                <label for="series_id">Sèrie</label>
-                <select class="form-control" id="series_id" name="series_id">
-                    <option value="">Selecciona una sèrie</option>
-                    @foreach ($series as $serie)
-                        <option value="{{ $serie->id }}">{{ $serie->title }}</option>
-                    @endforeach
-                </select>
-            </div>
+                <div class="mb-4">
+                    <label for="next" class="form-label">Vídeo següent (opcional)</label>
+                    <input type="text" name="next" id="next" class="form-control" value="{{ old('next') }}">
+                </div>
 
-            <button type="submit" class="btn btn-create-video mt-3">Crear Vídeo</button>
-        </form>
+                <div class="mb-4">
+                    <label for="series_id" class="form-label">Sèrie (opcional)</label>
+                    <select name="series_id" id="series_id" class="form-control">
+                        <option value="">Selecciona una sèrie</option>
+                        @foreach ($series as $serie)
+                            <option value="{{ $serie->id }}" {{ old('series_id') == $serie->id ? 'selected' : '' }}>
+                                {{ $serie->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <x-button type="secondary" href="{{ route('videos.index') }}">Cancel·lar</x-button>
+                    <x-button type="success">Crear Vídeo</x-button>
+                </div>
+            </form>
+        </x-card>
     </div>
 @endsection
-
-@push('styles')
-    <!-- Estils CSS -->
-    <style>
-        .container {
-            padding: 40px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-        }
-
-        h1 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        /* Estil per als inputs i formularis */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-control {
-            font-size: 14px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: #0069d9;
-        }
-
-        /* Estil per al botó de crear vídeo */
-        .btn-create-video {
-            background-color: #28a745;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            padding: 12px 20px;
-            border-radius: 5px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .btn-create-video:hover {
-            background-color: #218838;
-            transform: scale(1.05);
-        }
-
-        /* Estils per la taula i elements del formulari */
-        .form-group label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            color: white;
-            font-weight: 600;
-            padding: 12px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-        }
-
-        /* Mida màxima per a dispositius més petits */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            .btn-create-video, .btn-success {
-                font-size: 14px;
-                padding: 10px 15px;
-            }
-
-            .form-control {
-                font-size: 12px;
-                padding: 8px;
-            }
-        }
-    </style>
-@endpush
