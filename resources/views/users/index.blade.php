@@ -15,7 +15,7 @@
         </form>
 
         <!-- Llistat d'usuaris -->
-        @if($users->isEmpty())
+        @if(!isset($users) || (isset($users) && $users->isEmpty()))
             <x-empty-state message="No hi ha usuaris disponibles" icon="fa-users">
                 @if(Auth::check() && Auth::user()->can('manage-users'))
                     <x-button type="primary" href="{{ route('users.manage.create') }}">Crear usuari</x-button>
@@ -24,7 +24,7 @@
         @else
             <div class="card-grid">
                 @foreach($users as $user)
-                    <x-card>
+                    <x-card class="hover:shadow-md transition-all">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-3">
                                 @if($user->profile_photo_url)
@@ -38,7 +38,14 @@
                             <div>
                                 <h3>{{ $user->name }}</h3>
                                 <p class="text-muted">{{ $user->email }}</p>
-                                <x-button type="primary" size="sm" href="{{ route('users.show', $user->id) }}">Veure Detall</x-button>
+                                @if($user->getRoleNames()->isNotEmpty())
+                                    <span class="badge bg-info text-white mb-2">
+                                        {{ ucfirst($user->getRoleNames()->first()) }}
+                                    </span>
+                                @endif
+                                <div class="mt-2">
+                                    <x-button type="primary" size="sm" href="{{ route('users.show', $user->id) }}">Veure Detall</x-button>
+                                </div>
                             </div>
                         </div>
                     </x-card>
@@ -46,9 +53,11 @@
             </div>
 
             <!-- Paginación -->
-            <div class="mt-4">
-                {{ $users->links() }}
-            </div>
+            @if(isset($users) && method_exists($users, 'links'))
+                <div class="mt-4">
+                    {{ $users->links() }}
+                </div>
+            @endif
         @endif
     </div>
 @endsection

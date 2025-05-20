@@ -71,35 +71,54 @@
             }
 
             .notification-item {
-                padding: var(--spacing-md);
-                margin-bottom: var(--spacing-md);
-                border-radius: var(--border-radius);
-                background-color: var(--color-light);
-                border-left: 4px solid var(--color-primary);
-                box-shadow: var(--box-shadow);
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0.5rem;
+                background-color: white;
+                border-left: 4px solid #3b82f6;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
                 transition: transform 0.3s ease;
             }
 
             .notification-item:hover {
                 transform: translateY(-2px);
-                box-shadow: var(--box-shadow-hover);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
 
             .notification-header {
                 display: flex;
                 align-items: center;
-                margin-bottom: var(--spacing-xs);
-                font-size: var(--font-size-md);
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
             }
 
             .notification-time {
                 margin-left: auto;
-                font-size: var(--font-size-sm);
-                color: var(--color-secondary);
+                font-size: 0.875rem;
+                color: #6b7280;
             }
 
             .notification-body {
-                font-size: var(--font-size-md);
+                font-size: 1rem;
+            }
+
+            /* Estilos responsivos para móviles */
+            @media (max-width: 768px) {
+                .notification-item {
+                    padding: 0.75rem;
+                    margin-bottom: 0.75rem;
+                }
+
+                .notification-header {
+                    flex-wrap: wrap;
+                }
+
+                .notification-time {
+                    width: 100%;
+                    margin-left: 0;
+                    margin-top: 0.25rem;
+                    font-size: 0.75rem;
+                }
             }
         </style>
     @endpush

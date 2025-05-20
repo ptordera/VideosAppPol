@@ -1,0 +1,56 @@
+/* Estilos adicionales para tablas responsivas */
+.responsive-table-container {
+    margin-bottom: 2rem;
+}
+
+.responsive-table th {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.responsive-table td {
+    vertical-align: middle;
+}
+
+.responsive-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+    .responsive-table tr {
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .responsive-table tr:hover {
+        transform: translateY(-2px);
+    }
+
+    .responsive-table td {
+        padding: 12px 15px 12px 40%;
+    }
+
+    .responsive-table td:before {
+        color: #6c757d;
+        font-size: 0.85rem;
+    }
+}
+
+/* Animación suave al cargar la tabla */
+.responsive-table tbody tr {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

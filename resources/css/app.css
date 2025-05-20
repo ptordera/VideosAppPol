@@ -5,3 +5,125 @@
 [x-cloak] {
     display: none;
 }
+
+/* Estilos personalizados para tablas responsivas */
+@layer components {
+    .table-responsive-list {
+        @apply w-full bg-white rounded-lg shadow-sm overflow-hidden;
+    }
+
+    .table-responsive-list thead th {
+        @apply bg-gray-50 p-4 font-semibold text-gray-700 border-b-2 border-gray-200 text-xs uppercase tracking-wider;
+    }
+
+    .table-responsive-list tbody tr {
+        @apply transition-all hover:bg-gray-50;
+    }
+
+    .table-responsive-list td {
+        @apply p-4 align-middle border-b border-gray-100;
+    }
+
+    /* Estilos para móviles */
+    @media (max-width: 768px) {
+        .table-responsive-list thead {
+            @apply hidden;
+        }
+
+        .table-responsive-list,
+        .table-responsive-list tbody,
+        .table-responsive-list tr {
+            @apply block w-full;
+        }
+
+        .table-responsive-list tr {
+            @apply mb-4 rounded-lg shadow-sm overflow-hidden bg-white;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .table-responsive-list td {
+            @apply flex justify-between items-center text-right p-3 border-b border-gray-100;
+        }
+
+        .table-responsive-list td:last-child {
+            @apply border-b-0;
+        }
+
+        .table-responsive-list td:before {
+            content: attr(data-label);
+            @apply font-semibold text-gray-700 pr-2 text-left flex-1;
+        }
+
+        .table-responsive-list td.actions-cell {
+            @apply flex-col items-start;
+        }
+
+        .table-responsive-list td.actions-cell:before {
+            @apply mb-2 w-full;
+        }
+
+        .table-responsive-list td.actions-cell .flex {
+            @apply w-full justify-end;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Estilos para los badges de roles */
+    .badge {
+        @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    }
+
+    .bg-info {
+        @apply bg-blue-500;
+    }
+
+    .bg-success {
+        @apply bg-green-500;
+    }
+
+    .bg-secondary {
+        @apply bg-gray-500;
+    }
+
+    .text-white {
+        @apply text-white;
+    }
+
+    /* Estilos específicos para avatares de usuario */
+    .user-avatar {
+        @apply flex-shrink-0 rounded-full overflow-hidden;
+        width: 40px;
+        height: 40px;
+    }
+
+    .user-avatar-placeholder {
+        @apply flex items-center justify-center rounded-full text-white font-bold;
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Estilos específicos para miniaturas de vídeo */
+    .video-thumbnail {
+        @apply flex-shrink-0 rounded overflow-hidden;
+        width: 80px;
+        height: 45px;
+    }
+
+    .video-thumbnail img {
+        @apply w-full h-full object-cover;
+    }
+
+    .video-thumbnail-placeholder {
+        @apply w-full h-full bg-gray-100 flex items-center justify-center;
+    }
+}
